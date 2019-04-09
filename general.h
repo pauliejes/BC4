@@ -43,6 +43,8 @@ extern int nextToken;
 #define LESSEQL_OP 35
 #define GREATEQL_OP 36
 #define COMMENT 37
+#define NEWLINE 38
+
 
 
 #endif

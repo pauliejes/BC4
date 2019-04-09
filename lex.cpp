@@ -8,53 +8,127 @@ using namespace std;
 /*****************************************************/
 /* lookup - a function to lookup operators and parentheses
  and return the token */
-int lookup(char ch)
+int lookup(char *ch)
 {
-   switch (ch) {
-      case '(':
+
+      if(strcmp(ch, "(")){
                 addChar();
                 nextToken = LEFT_PAREN;
-                break;
-      case ')':
+      }
+      if(strcmp(ch, ")")){
                 addChar();
                 nextToken = RIGHT_PAREN;
-                break;
-      case '+':
+      }
+      if(strcmp(ch, "+")){
                 addChar();
                 nextToken = ADD_OP;
-                break;
-      case '-':
+      }
+      if(strcmp(ch, "-")){
                 addChar();
                 nextToken = SUB_OP;
-                break;
-      case '*':
+      }
+      if(strcmp(ch, "*")){
                 addChar();
                 nextToken = MULT_OP;
-                break;
-      case '/':
+      }
+      if(strcmp(ch, "/")){
                 addChar();
                 nextToken = DIV_OP;
-                break;
-      case '%':
+      }
+      if(strcmp(ch, "%")){
                 addChar();
                 nextToken = MOD_OP;
-                break;
-      case '^':
+      }
+      if(strcmp(ch, "^")){
                 addChar();
                 nextToken = POW_OP;
-                break;
-      case '=':
+      }
+      if(strcmp(ch, "=")){
                 addChar();
                 nextToken = ASSIGN_OP;
-                break;
-      default:
+      }
+      if(strcmp(ch, "==")){
+                addChar();
+                nextToken = EQL_OP;
+      }
+      if(strcmp(ch, "!=")){
+                addChar();
+                nextToken = NOTEQL_OP;
+      }
+      if(strcmp(ch, "<")){
+                addChar();
+                nextToken = LESS_OP;
+      }      
+      if(strcmp(ch, ">")){
+                addChar();
+                nextToken = GREAT_OP;
+      }  
+      if(strcmp(ch, "<=")){
+                addChar();
+                nextToken = LESSEQL_OP;
+      }      
+      if(strcmp(ch, ">=")){
+                addChar();
+                nextToken = GREATEQL_OP;
+      }  
+      if(strcmp(ch, "#")){
+                addChar();
+                nextToken = COMMENT;
+      }       
+      if(strcmp(ch, "=")){
+                addChar();
+                nextToken = ASSIGN_OP;
+      }
+      else{
                 addChar();
                 nextToken = EOF;
-                break;
+      }
 
-   }
+   // switch (ch) {
+   //    case '(':
+   //              addChar();
+   //              nextToken = LEFT_PAREN;
+   //              break;
+   //    case ')':
+   //              addChar();
+   //              nextToken = RIGHT_PAREN;
+   //              break;
+   //    case '+':
+   //              addChar();
+   //              nextToken = ADD_OP;
+   //              break;
+   //    case '-':
+   //              addChar();
+   //              nextToken = SUB_OP;
+   //              break;
+   //    case '*':
+   //              addChar();
+   //              nextToken = MULT_OP;
+   //              break;
+   //    case '/':
+   //              addChar();
+   //              nextToken = DIV_OP;
+   //              break;
+   //    case '%':
+   //              addChar();
+   //              nextToken = MOD_OP;
+   //              break;
+   //    case '^':
+   //              addChar();
+   //              nextToken = POW_OP;
+   //              break;
+   //    case '=':
+   //              addChar();
+   //              nextToken = ASSIGN_OP;
+   //              break;
+   //    default:
+   //              addChar();
+   //              nextToken = EOF;
+   //              break;
+
    return nextToken;
-}
+   }
+
 
 
 /*****************************************************/
@@ -142,8 +216,14 @@ int lex()
       /* Parentheses and operators */
       case OPERATOR:
                    /* Call lookup to identify the type of operator */
-                   lookup(nextChar);
-                   getChar();
+                    addChar();
+                    getChar();
+                   while(charClass == OPERATOR){
+                      addChar();
+                      getChar();
+                   }
+                   cout << "OPERATOR lexeme: " << lexeme << endl;
+                   lookup(lexeme);
                    break;
       /* Newline characters */
       case NEWLINE_CLASS:
