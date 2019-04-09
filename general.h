@@ -44,6 +44,13 @@ extern int nextToken;
 #define GREATEQL_OP 36
 #define COMMENT 37
 #define NEWLINE 38
+#define IF 39
+#define THEN 40
+#define ELSE 41
+#define FI 42
+#define WHILE 43
+#define DO 44
+#define DONE 45
 
 
 

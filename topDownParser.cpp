@@ -73,29 +73,25 @@ int stmt()
 {
 
    int return_val = 0;
+   if(nextToken == QUIT) {
+    exit(11);
+   }
+   else if(nextToken == DUMP) {
+      symbolTable.dump_table();
+   }
    //for assignment statements
-   if(nextToken == IDENT) {
-      //check for quit
-      if(strcmp(lexeme,"quit") == 0) {
-        exit(11);
-      }
-      else if(strcmp(lexeme,"dump") == 0) {
-        symbolTable.dump_table();
- 
-      }
-      else {
-         //get the next token
-         Symbol_ptr var_to_assign = symbolTable.insert(lexeme);
-         //expr is too extreme here, should only 
-         return_val = factor();
-            //factor();
-         while (nextToken == ASSIGN_OP) {
-            lex();
-            return_val = expr();
-            //return_val = expr();
-            //cout << "return_val = " << return_val << endl;
-            var_to_assign->putval(return_val);
-         }
+   else if(nextToken == IDENT) {
+      //get the next token
+      Symbol_ptr var_to_assign = symbolTable.insert(lexeme);
+      //expr is too extreme here, should only 
+      return_val = factor();
+         //factor();
+      while (nextToken == ASSIGN_OP) {
+         lex();
+         return_val = expr();
+         //return_val = expr();
+         //cout << "return_val = " << return_val << endl;
+         var_to_assign->putval(return_val);
       }
    } else {
       //plain expressions

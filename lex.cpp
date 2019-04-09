@@ -11,124 +11,114 @@ using namespace std;
 int lookup(char *ch)
 {
 
-      if(strcmp(ch, "(")){
-                addChar();
-                nextToken = LEFT_PAREN;
-      }
-      if(strcmp(ch, ")")){
-                addChar();
-                nextToken = RIGHT_PAREN;
-      }
-      if(strcmp(ch, "+")){
-                addChar();
-                nextToken = ADD_OP;
-      }
-      if(strcmp(ch, "-")){
-                addChar();
-                nextToken = SUB_OP;
-      }
-      if(strcmp(ch, "*")){
-                addChar();
-                nextToken = MULT_OP;
-      }
-      if(strcmp(ch, "/")){
-                addChar();
-                nextToken = DIV_OP;
-      }
-      if(strcmp(ch, "%")){
-                addChar();
-                nextToken = MOD_OP;
-      }
-      if(strcmp(ch, "^")){
-                addChar();
-                nextToken = POW_OP;
-      }
-      if(strcmp(ch, "=")){
-                addChar();
-                nextToken = ASSIGN_OP;
-      }
-      if(strcmp(ch, "==")){
-                addChar();
-                nextToken = EQL_OP;
-      }
-      if(strcmp(ch, "!=")){
-                addChar();
-                nextToken = NOTEQL_OP;
-      }
-      if(strcmp(ch, "<")){
-                addChar();
-                nextToken = LESS_OP;
-      }      
-      if(strcmp(ch, ">")){
-                addChar();
-                nextToken = GREAT_OP;
-      }  
-      if(strcmp(ch, "<=")){
-                addChar();
-                nextToken = LESSEQL_OP;
-      }      
-      if(strcmp(ch, ">=")){
-                addChar();
-                nextToken = GREATEQL_OP;
-      }  
-      if(strcmp(ch, "#")){
-                addChar();
-                nextToken = COMMENT;
-      }       
-      if(strcmp(ch, "=")){
-                addChar();
-                nextToken = ASSIGN_OP;
-      }
-      else{
-                addChar();
-                nextToken = EOF;
-      }
+  if(strcmp(ch, "(")){
+            addChar();
+            nextToken = LEFT_PAREN;
+  }
+  if(strcmp(ch, ")")){
+            addChar();
+            nextToken = RIGHT_PAREN;
+  }
+  if(strcmp(ch, "+")){
+            addChar();
+            nextToken = ADD_OP;
+  }
+  if(strcmp(ch, "-")){
+            addChar();
+            nextToken = SUB_OP;
+  }
+  if(strcmp(ch, "*")){
+            addChar();
+            nextToken = MULT_OP;
+  }
+  if(strcmp(ch, "/")){
+            addChar();
+            nextToken = DIV_OP;
+  }
+  if(strcmp(ch, "%")){
+            addChar();
+            nextToken = MOD_OP;
+  }
+  if(strcmp(ch, "^")){
+            addChar();
+            nextToken = POW_OP;
+  }
+  if(strcmp(ch, "=")){
+            addChar();
+            nextToken = ASSIGN_OP;
+  }
+  if(strcmp(ch, "==")){
+            addChar();
+            nextToken = EQL_OP;
+  }
+  if(strcmp(ch, "!=")){
+            addChar();
+            nextToken = NOTEQL_OP;
+  }
+  if(strcmp(ch, "<")){
+            addChar();
+            nextToken = LESS_OP;
+  }      
+  if(strcmp(ch, ">")){
+            addChar();
+            nextToken = GREAT_OP;
+  }  
+  if(strcmp(ch, "<=")){
+            addChar();
+            nextToken = LESSEQL_OP;
+  }      
+  if(strcmp(ch, ">=")){
+            addChar();
+            nextToken = GREATEQL_OP;
+  }  
+  if(strcmp(ch, "#")){
+            addChar();
+            nextToken = COMMENT;
+  }       
+  if(strcmp(ch, "=")){
+            addChar();
+            nextToken = ASSIGN_OP;
+  }
+  else{
+            addChar();
+            nextToken = EOF;
+  }
 
-   // switch (ch) {
-   //    case '(':
-   //              addChar();
-   //              nextToken = LEFT_PAREN;
-   //              break;
-   //    case ')':
-   //              addChar();
-   //              nextToken = RIGHT_PAREN;
-   //              break;
-   //    case '+':
-   //              addChar();
-   //              nextToken = ADD_OP;
-   //              break;
-   //    case '-':
-   //              addChar();
-   //              nextToken = SUB_OP;
-   //              break;
-   //    case '*':
-   //              addChar();
-   //              nextToken = MULT_OP;
-   //              break;
-   //    case '/':
-   //              addChar();
-   //              nextToken = DIV_OP;
-   //              break;
-   //    case '%':
-   //              addChar();
-   //              nextToken = MOD_OP;
-   //              break;
-   //    case '^':
-   //              addChar();
-   //              nextToken = POW_OP;
-   //              break;
-   //    case '=':
-   //              addChar();
-   //              nextToken = ASSIGN_OP;
-   //              break;
-   //    default:
-   //              addChar();
-   //              nextToken = EOF;
-   //              break;
+  return nextToken;
+}
 
-   return nextToken;
+int reservedWordLookup(char * lexeme) {
+  if (strcmp(lexeme,"quit")) {
+      return QUIT;
    }
-
+   else if (strcmp(lexeme,"dump")) {
+      return DUMP;
+   }
+   else if (strcmp(lexeme,"if")) {
+      return IF;
+   }
+   else if (strcmp(lexeme,"then")) {
+      return THEN;
+   }
+   else if (strcmp(lexeme,"else")) {
+      return ELSE;
+   }
+   else if (strcmp(lexeme,"fi")) {
+      return FI;
+   }
+   else if (strcmp(lexeme,"while")) {
+      return WHILE;
+   }
+   else if (strcmp(lexeme,"do")) {
+      return DO;
+   }
+   else if (strcmp(lexeme,"done")) {
+      return DONE;
+   }
+   else {
+      return IDENT;
+   }
+}
 
 
 /*****************************************************/
@@ -195,10 +185,9 @@ int lex()
                       addChar();
                       getChar();
                    }
-                   /*if(strcmp(lexeme,"quit") == 0) {
-                    exit(11);
-                   }*/
-                   nextToken = IDENT;
+                   
+                   nextToken = reservedWordLookup(lexeme);
+
                    break;
 
       /* Parse integer literals - once you find the first
