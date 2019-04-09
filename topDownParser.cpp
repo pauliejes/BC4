@@ -98,8 +98,8 @@ int stmt()
          }
       }
    } else {
-      //plane expressions
-      return_val = expr();
+      //plain expressions
+      error("This grammar does not allow plain expressions, please define a variable name");
    }
 
    return return_val;
