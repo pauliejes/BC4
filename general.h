@@ -36,7 +36,13 @@ extern int nextToken;
 #define RIGHT_PAREN 28
 #define QUIT 29
 #define DUMP 30
-#define NEWLINE 31
+#define EQL_OP 31
+#define NOTEQL_OP 32
+#define LESS_OP 33
+#define GREAT_OP 34
+#define LESSEQL_OP 35
+#define GREATEQL_OP 36
+#define COMMENT 37
 
 
 #endif

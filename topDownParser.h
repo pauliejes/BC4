@@ -7,6 +7,8 @@
 /* Function declarations */
 void stmt_list();
 int stmt();
+int stmts();
+bool cond();
 int expr();
 int term();
 int factor();
