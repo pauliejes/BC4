@@ -16,6 +16,7 @@ extern Symbol_table symbolTable;
 extern int charClass;
 #define LETTER 0
 #define DIGIT 1
+#define COMMENT 98
 #define OPERATOR 99
 #define NEWLINE_CLASS 100
 
@@ -42,7 +43,7 @@ extern int nextToken;
 #define GREAT_OP 34
 #define LESSEQL_OP 35
 #define GREATEQL_OP 36
-#define COMMENT 37
+#define COMMENT_ID 37
 #define NEWLINE 38
 #define IF 39
 #define THEN 40

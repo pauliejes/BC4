@@ -73,7 +73,7 @@ int lookup(char *ch)
   }  
   if(strcmp(ch, "#")){
             addChar();
-            nextToken = COMMENT;
+            nextToken = COMMENT_ID;
   }       
   if(strcmp(ch, "=")){
             addChar();
@@ -88,31 +88,31 @@ int lookup(char *ch)
 }
 
 int reservedWordLookup(char * lexeme) {
-  if (strcmp(lexeme,"quit")) {
+  if (strcmp(lexeme,"quit") == 0) {
       return QUIT;
    }
-   else if (strcmp(lexeme,"dump")) {
+   else if (strcmp(lexeme,"dump") == 0) {
       return DUMP;
    }
-   else if (strcmp(lexeme,"if")) {
+   else if (strcmp(lexeme,"if") == 0) {
       return IF;
    }
-   else if (strcmp(lexeme,"then")) {
+   else if (strcmp(lexeme,"then") == 0) {
       return THEN;
    }
-   else if (strcmp(lexeme,"else")) {
+   else if (strcmp(lexeme,"else") == 0) {
       return ELSE;
    }
-   else if (strcmp(lexeme,"fi")) {
+   else if (strcmp(lexeme,"fi") == 0) {
       return FI;
    }
-   else if (strcmp(lexeme,"while")) {
+   else if (strcmp(lexeme,"while") == 0) {
       return WHILE;
    }
-   else if (strcmp(lexeme,"do")) {
+   else if (strcmp(lexeme,"do") == 0) {
       return DO;
    }
-   else if (strcmp(lexeme,"done")) {
+   else if (strcmp(lexeme,"done") == 0) {
       return DONE;
    }
    else {
@@ -142,7 +142,9 @@ void getChar()
 {
    cin.get(nextChar);
    if (nextChar != EOF) {
-      if (isalpha(nextChar))
+      if (nextChar == '#')
+         charClass = COMMENT;
+      else if (isalpha(nextChar))
          charClass = LETTER;
       else if (isdigit(nextChar))
          charClass = DIGIT;
@@ -173,10 +175,34 @@ void getNonBlank()
 int lex()
 {
    lexLen = 0;
-   getNonBlank();
+   if (nextToken != COMMENT_ID)
+      getNonBlank();
+   else {
+      while (nextChar != '\n') {
+         getChar();
+      }
+   }
    switch (charClass) {
       /* Parse identifiers - once you find the first
          letter, read and add char by char to lexeme. */
+
+      case COMMENT:
+             addChar();
+             getChar();
+             /* After first char, you may use either char or digits */
+             while (nextToken == COMMENT_ID) {
+                addChar();
+                getChar();
+             }
+             
+             cout << "Comment lexeme: " << lexeme << endl;
+
+
+             nextToken = COMMENT_ID;
+
+             break;
+
+
       case LETTER:
                    addChar();
                    getChar();
@@ -219,6 +245,8 @@ int lex()
                    addChar();
                    nextToken = NEWLINE;
                    break;
+
+
       /* EOF */
       case EOF:
                    nextToken = EOF;

@@ -93,6 +93,11 @@ int stmt()
          //cout << "return_val = " << return_val << endl;
          var_to_assign->putval(return_val);
       }
+   }
+   //for comments
+   else if (nextToken == COMMENT_ID){
+      lex();
+      symbolTable.insert(lexeme);
    } else {
       //plain expressions
       error("This grammar does not allow plain expressions, please define a variable name");

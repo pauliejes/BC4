@@ -12,7 +12,6 @@ int cond();
 int opt_else();
 int expr();
 void print();
-int comment();
 int term();
 int factor();
 void error(const char *);
