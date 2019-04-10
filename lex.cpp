@@ -11,71 +11,71 @@ using namespace std;
 int lookup(char *ch)
 {
 
-  if(strcmp(ch, "(")){
+  if(strcmp(ch, "(") == 0){
             addChar();
             nextToken = LEFT_PAREN;
   }
-  if(strcmp(ch, ")")){
+  if(strcmp(ch, ")") == 0){
             addChar();
             nextToken = RIGHT_PAREN;
   }
-  if(strcmp(ch, "+")){
+  if(strcmp(ch, "+") == 0){
             addChar();
             nextToken = ADD_OP;
   }
-  if(strcmp(ch, "-")){
+  if(strcmp(ch, "-") == 0){
             addChar();
             nextToken = SUB_OP;
   }
-  if(strcmp(ch, "*")){
+  if(strcmp(ch, "*") == 0){
             addChar();
             nextToken = MULT_OP;
   }
-  if(strcmp(ch, "/")){
+  if(strcmp(ch, "/") == 0){
             addChar();
             nextToken = DIV_OP;
   }
-  if(strcmp(ch, "%")){
+  if(strcmp(ch, "%") == 0){
             addChar();
             nextToken = MOD_OP;
   }
-  if(strcmp(ch, "^")){
+  if(strcmp(ch, "^") == 0){
             addChar();
             nextToken = POW_OP;
   }
-  if(strcmp(ch, "=")){
+  if(strcmp(ch, "=") == 0){
             addChar();
             nextToken = ASSIGN_OP;
   }
-  if(strcmp(ch, "==")){
+  if(strcmp(ch, "==") == 0){
             addChar();
             nextToken = EQL_OP;
   }
-  if(strcmp(ch, "!=")){
+  if(strcmp(ch, "!=") == 0){
             addChar();
             nextToken = NOTEQL_OP;
   }
-  if(strcmp(ch, "<")){
+  if(strcmp(ch, "<") == 0){
             addChar();
             nextToken = LESS_OP;
   }      
-  if(strcmp(ch, ">")){
+  if(strcmp(ch, ">") == 0){
             addChar();
             nextToken = GREAT_OP;
   }  
-  if(strcmp(ch, "<=")){
+  if(strcmp(ch, "<=") == 0){
             addChar();
             nextToken = LESSEQL_OP;
   }      
-  if(strcmp(ch, ">=")){
+  if(strcmp(ch, ">=") == 0){
             addChar();
             nextToken = GREATEQL_OP;
   }  
-  if(strcmp(ch, "#")){
+  if(strcmp(ch, "#") == 0){
             addChar();
             nextToken = COMMENT_ID;
   }       
-  if(strcmp(ch, "=")){
+  if(strcmp(ch, "=") == 0){
             addChar();
             nextToken = ASSIGN_OP;
   }
@@ -142,12 +142,12 @@ void getChar()
 {
    cin.get(nextChar);
    if (nextChar != EOF) {
-      if (nextChar == '#')
-         charClass = COMMENT;
-      else if (isalpha(nextChar))
+      if (isalpha(nextChar))
          charClass = LETTER;
       else if (isdigit(nextChar))
          charClass = DIGIT;
+      else if (nextChar == '#')
+         charClass = COMMENT;
       else if (nextChar == '\n')
          charClass = NEWLINE_CLASS;
       else
@@ -175,32 +175,17 @@ void getNonBlank()
 int lex()
 {
    lexLen = 0;
-   if (nextToken != COMMENT_ID)
-      getNonBlank();
-   else {
-      while (nextChar != '\n') {
-         getChar();
-      }
-   }
+   // if (nextToken != '#')
+   //    getNonBlank();
+   // else {
+   //    while (nextChar != '\n') {
+   //       getChar();
+   //    }
+   // }
+   getNonBlank();
    switch (charClass) {
       /* Parse identifiers - once you find the first
          letter, read and add char by char to lexeme. */
-
-      case COMMENT:
-             addChar();
-             getChar();
-             /* After first char, you may use either char or digits */
-             while (nextToken == COMMENT_ID) {
-                addChar();
-                getChar();
-             }
-             
-             cout << "Comment lexeme: " << lexeme << endl;
-
-
-             nextToken = COMMENT_ID;
-
-             break;
 
 
       case LETTER:
@@ -240,6 +225,23 @@ int lex()
                    cout << "OPERATOR lexeme: " << lexeme << endl;
                    lookup(lexeme);
                    break;
+
+      case COMMENT:
+                   addChar();
+                   getChar();
+                   /* After first char, you may use either char or digits */
+                   while (charClass != NEWLINE_CLASS) {
+                      addChar();
+                      getChar();
+                   }
+                   
+                   cout << "Comment lexeme: " << lexeme << endl;
+
+
+                   nextToken = COMMENT_ID;
+
+                   break;
+
       /* Newline characters */
       case NEWLINE_CLASS:
                    addChar();

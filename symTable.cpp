@@ -14,6 +14,16 @@ void Symbol_node::putval(int val) {
   this->val = val;
 } 
 
+void Symbol_node::putcomment(char * com) {
+  this->com = com;
+} 
+
+
+char * Symbol_node::getcomment() {
+  return this->com;
+}
+
+
 int Symbol_node::getval(void) {
   return this->val;
 }
@@ -117,7 +127,7 @@ Symbol_ptr Symbol_table::lookup(char * name)
   //looking for the symbol
   while(cur_ptr != NULL && found == false) {
     //if this is the variable being looked for
-    if(strcmp(cur_ptr->getId(), name) == 0) {
+    if((strcmp(cur_ptr->getId(), name) == 0) && name != "#") {
       found = true;
       ptr = cur_ptr;
     } 
@@ -153,8 +163,11 @@ void Symbol_table::dump_table() {
     
       ptrz = this->table[i];
       do{
-            
-      	cout << ptrz->getId() << " = " << ptrz->getval() << endl;    
+        if(ptrz->getId() != "#")
+      	   cout << ptrz->getId() << " = " << ptrz->getval() << endl;   
+        else
+           cout << ptrz->getId() << " = " << ptrz->getcomment() << endl;    
+
         ptrz = ptrz->getNext();
       }while(ptrz != 0);
     }

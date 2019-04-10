@@ -96,8 +96,7 @@ int stmt()
    }
    //for comments
    else if (nextToken == COMMENT_ID){
-      lex();
-      symbolTable.insert(lexeme);
+      Symbol_ptr comments = symbolTable.insert(lexeme);
    } else {
       //plain expressions
       error("This grammar does not allow plain expressions, please define a variable name");
@@ -158,6 +157,7 @@ int expr()
    while (nextToken == ADD_OP ) {
       lex();
       return_val += term();
+      cout << "ADD_OP" << endl;
    }
 
    while (nextToken == SUB_OP) {

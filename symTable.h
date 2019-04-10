@@ -14,6 +14,8 @@ class Symbol_node {
 		~Symbol_node(void);
 		//void putval(VALUE);
 		void putval(int);
+		void putcomment(char * com);
+		char * getcomment();
 		//VALUE getval(void);
 		int getval(void);
 		Symbol_node * getNext();
@@ -25,6 +27,7 @@ class Symbol_node {
 		//int token;
 		//VALUE value;
 		int val;
+		char * com;
 		Symbol_node * next;
 };
 #endif
