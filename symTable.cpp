@@ -161,4 +161,6 @@ void Symbol_table::dump_table() {
     }
   }
   cout << "============================"<<endl;
+  cout << "--- Program ---\n";
+  cout << buffer << endl;
 }

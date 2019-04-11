@@ -149,7 +149,8 @@ void getChar()
       nextChar = buffer[buffer_index++];
       cout << "buffer: " << buffer << endl; 
    } else {
-      //If at end of buffer
+      //If at end of buffer, grab another character and move the 
+      //buffer index forward
       cin.get(nextChar);
       buffer += nextChar;
       buffer_index++;
@@ -239,7 +240,7 @@ int lex()
                       addChar();
                       getChar();
                    }
-                   cout << "OPERATOR lexeme: " << lexeme << endl;
+                   //cout << "OPERATOR lexeme: " << lexeme << endl;
                    lookup(lexeme);
                    break;
 
@@ -252,7 +253,7 @@ int lex()
                       getChar();
                    }
                    
-                   cout << "Comment lexeme: " << lexeme << endl;
+                   //cout << "Comment lexeme: " << lexeme << endl;
 
 
                    nextToken = COMMENT_ID;

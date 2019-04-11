@@ -39,7 +39,7 @@ int main(void) {
   do {
     getChar();
     lex();
-    cout << "    = " << stmt() << endl;
+    stmt();
   } while (nextToken != EOF);
 
    //}
@@ -103,7 +103,7 @@ int stmt()
    }
    //for comments
    else if (nextToken == COMMENT_ID) {
-      Symbol_ptr comments = symbolTable.insert(lexeme);
+      //do nothing
    }
    //for if statements
    else if (nextToken == IF) {
@@ -114,11 +114,17 @@ int stmt()
          cout << "nextToken = " << nextToken << endl;
          if(nextToken == THEN) {
             cout << "then\n";
+            lex();
+            cout << "lexeme = " << lexeme << endl;
             return_val = stmt();
+            cout << "return_val = " << return_val <<endl;
          }
       } else {
          //condition is false
          cout << "false\n";
+         while(nextToken != NEWLINE) {
+            lex();
+         }
          //eat the rest of input
       }
    }
