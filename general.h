@@ -1,12 +1,17 @@
-#include<iostream>
-#include<stdio.h>
-#include<ctype.h>
+#include <iostream>
+#include <stdio.h>
+#include <ctype.h>
+#include <string>
 #include "symTable.h"
 
 #ifndef _GENERAL_H_
 #define _GENERAL_H_
 /* Global declarations */
 /* Variables */
+//global buffer
+extern std::string buffer;
+extern int buffer_index;
+//gloabal buffer index
 extern char lexeme [100];
 extern char nextChar;
 extern int lexLen;

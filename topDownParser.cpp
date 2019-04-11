@@ -102,9 +102,27 @@ int stmt()
       }
    }
    //for comments
-   else if (nextToken == COMMENT_ID){
+   else if (nextToken == COMMENT_ID) {
       Symbol_ptr comments = symbolTable.insert(lexeme);
-   } else {
+   }
+   //for if statements
+   else if (nextToken == IF) {
+      lex();
+      int cond_result = cond();
+      if(cond_result) {
+         cout << "true\n";
+         cout << "nextToken = " << nextToken << endl;
+         if(nextToken == THEN) {
+            cout << "then\n";
+            return_val = stmt();
+         }
+      } else {
+         //condition is false
+         cout << "false\n";
+         //eat the rest of input
+      }
+   }
+   else {
       //plain expressions
       error("This grammar does not allow plain expressions, please define a variable name");
    }
@@ -119,8 +137,21 @@ int stmt()
  */
 int cond()
 {
+   cout << "Enter condition. lexeme: " << lexeme << endl;
    bool return_val;
 
+
+   //evaluate the first expression and hold value
+   int val_1 = expr();
+   cout << "val_1 = " << val_1 << endl;
+   int val_2;
+
+   if(nextToken == EQL_OP) {
+      lex();
+      val_2 = expr();
+      cout << "val_2 = " << val_2 << endl;
+      return_val = (val_1 == val_2);
+   }
 
    /* Parse the first expr */
    // int first_cond = expr();
@@ -133,7 +164,7 @@ int cond()
    //    return_val += term();
    // }
 
-  
+   cout << "if return_val = " << return_val << endl;
    return return_val;
 
 } /* End of function cond */

@@ -1,5 +1,8 @@
 #include "general.h"
 #include "symTable.h"
+#include <string>
+std::string buffer;
+int buffer_index;
 char lexeme [100];
 char nextChar;
 int lexLen;

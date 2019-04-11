@@ -84,7 +84,7 @@ int lookup(char *ch)
             addChar();
             nextToken = EOF;
   }
-  cout << "nextToken: " << nextToken << endl;
+  //cout << "nextToken: " << nextToken << endl;
   return nextToken;
 }
 
@@ -144,7 +144,17 @@ void addChar()
 */
 void getChar()
 {
-   cin.get(nextChar);
+   //buffer.get(nextChar);
+   if(buffer_index < buffer.length()) {
+      nextChar = buffer[buffer_index++];
+      cout << "buffer: " << buffer << endl; 
+   } else {
+      //If at end of buffer
+      cin.get(nextChar);
+      buffer += nextChar;
+      buffer_index++;
+   }
+   //insert next char into buffer here?
    if (nextChar != EOF) {
       if (isalpha(nextChar))
          charClass = LETTER;
