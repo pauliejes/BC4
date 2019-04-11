@@ -10,72 +10,73 @@ using namespace std;
  and return the token */
 int lookup(char *ch)
 {
+  //cout << "ch: " << ch << "|" << endl;
 
   if(strcmp(ch, "(") == 0){
             addChar();
             nextToken = LEFT_PAREN;
   }
-  if(strcmp(ch, ")") == 0){
+  else if(strcmp(ch, ")") == 0){
             addChar();
             nextToken = RIGHT_PAREN;
   }
-  if(strcmp(ch, "+") == 0){
+  else if(strcmp(ch, "+") == 0){
             addChar();
             nextToken = ADD_OP;
   }
-  if(strcmp(ch, "-") == 0){
+  else if(strcmp(ch, "-") == 0){
             addChar();
             nextToken = SUB_OP;
   }
-  if(strcmp(ch, "*") == 0){
+  else if(strcmp(ch, "*") == 0){
             addChar();
             nextToken = MULT_OP;
   }
-  if(strcmp(ch, "/") == 0){
+  else if(strcmp(ch, "/") == 0){
             addChar();
             nextToken = DIV_OP;
   }
-  if(strcmp(ch, "%") == 0){
+  else if(strcmp(ch, "%") == 0){
             addChar();
             nextToken = MOD_OP;
   }
-  if(strcmp(ch, "^") == 0){
+  else if(strcmp(ch, "^") == 0){
             addChar();
             nextToken = POW_OP;
   }
-  if(strcmp(ch, "=") == 0){
+  else if(strcmp(ch, "=") == 0){
             addChar();
             nextToken = ASSIGN_OP;
   }
-  if(strcmp(ch, "==") == 0){
+  else if(strcmp(ch, "==") == 0){
             addChar();
             nextToken = EQL_OP;
   }
-  if(strcmp(ch, "!=") == 0){
+  else if(strcmp(ch, "!=") == 0){
             addChar();
             nextToken = NOTEQL_OP;
   }
-  if(strcmp(ch, "<") == 0){
+  else if(strcmp(ch, "<") == 0){
             addChar();
             nextToken = LESS_OP;
   }      
-  if(strcmp(ch, ">") == 0){
+  else if(strcmp(ch, ">") == 0){
             addChar();
             nextToken = GREAT_OP;
   }  
-  if(strcmp(ch, "<=") == 0){
+  else if(strcmp(ch, "<=") == 0){
             addChar();
             nextToken = LESSEQL_OP;
   }      
-  if(strcmp(ch, ">=") == 0){
+  else if(strcmp(ch, ">=") == 0){
             addChar();
             nextToken = GREATEQL_OP;
   }  
-  if(strcmp(ch, "#") == 0){
+  else if(strcmp(ch, "#") == 0){
             addChar();
             nextToken = COMMENT_ID;
   }       
-  if(strcmp(ch, "=") == 0){
+  else if(strcmp(ch, "=") == 0){
             addChar();
             nextToken = ASSIGN_OP;
   }
@@ -83,7 +84,7 @@ int lookup(char *ch)
             addChar();
             nextToken = EOF;
   }
-
+  cout << "nextToken: " << nextToken << endl;
   return nextToken;
 }
 
@@ -114,6 +115,9 @@ int reservedWordLookup(char * lexeme) {
    }
    else if (strcmp(lexeme,"done") == 0) {
       return DONE;
+   }
+   else if (strcmp(lexeme,"print") == 0) {
+      return PRINT;
    }
    else {
       return IDENT;
@@ -150,6 +154,9 @@ void getChar()
          charClass = COMMENT;
       else if (nextChar == '\n')
          charClass = NEWLINE_CLASS;
+      else if (isspace(nextChar)) {
+         charClass = WHITESPACE;
+      }
       else
          charClass = OPERATOR;
    } else
@@ -216,8 +223,8 @@ int lex()
       /* Parentheses and operators */
       case OPERATOR:
                    /* Call lookup to identify the type of operator */
-                    addChar();
-                    getChar();
+                    //addChar();
+                    //getChar();
                    while(charClass == OPERATOR){
                       addChar();
                       getChar();

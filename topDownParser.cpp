@@ -73,24 +73,31 @@ int stmt()
 {
 
    int return_val = 0;
+   //Quit
    if(nextToken == QUIT) {
-    exit(11);
+      exit(11);
    }
+   //Dump
    else if(nextToken == DUMP) {
       symbolTable.dump_table();
+   }
+   //Print
+   else if(nextToken == PRINT) {
+      lex();
+      //return_val = factor();
+      Symbol_ptr var_ptr = symbolTable.insert(lexeme);
+      cout << var_ptr->getId() << " = ";
+      cout << var_ptr->getval() << endl;
+
    }
    //for assignment statements
    else if(nextToken == IDENT) {
       //get the next token
       Symbol_ptr var_to_assign = symbolTable.insert(lexeme);
-      //expr is too extreme here, should only 
       return_val = factor();
-         //factor();
       while (nextToken == ASSIGN_OP) {
          lex();
          return_val = expr();
-         //return_val = expr();
-         //cout << "return_val = " << return_val << endl;
          var_to_assign->putval(return_val);
       }
    }

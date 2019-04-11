@@ -19,6 +19,7 @@ extern int charClass;
 #define COMMENT 98
 #define OPERATOR 99
 #define NEWLINE_CLASS 100
+#define WHITESPACE 101
 
 /* Token codes */
 extern int token;
@@ -52,6 +53,7 @@ extern int nextToken;
 #define WHILE 43
 #define DO 44
 #define DONE 45
+#define PRINT 46
 
 
 
