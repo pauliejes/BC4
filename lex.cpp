@@ -147,8 +147,10 @@ void getChar()
    //buffer.get(nextChar);
    if(buffer_index < buffer.length()) {
       nextChar = buffer[buffer_index++];
-      cout << "buffer: " << buffer << endl; 
+      cout << "nextChar from Buffer[" << buffer_index << "]" << nextChar << endl;
+      //cout << "buffer: " << buffer << endl; 
    } else {
+      //cout << "getting a new char\n";
       //If at end of buffer, grab another character and move the 
       //buffer index forward
       cin.get(nextChar);

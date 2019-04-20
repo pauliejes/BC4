@@ -10,6 +10,7 @@ int stmt();
 int stmts();
 int identifier();
 int ifstmt();
+int whileLoop();
 int cond();
 int opt_else();
 int expr();
