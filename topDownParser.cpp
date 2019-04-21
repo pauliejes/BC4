@@ -88,7 +88,10 @@ int stmt()
       return_val = ifstmt();
    } else if (nextToken == WHILE) {
       return_val = whileLoop(); 
-   }else { //plain expressions
+   } else if (nextToken == NEWLINE) {
+      error("Statement should not be empty");
+      exit(0);
+   } else { //plain expressions
       error("This grammar does not allow plain expressions, please define a variable name");
    }
 
@@ -164,22 +167,41 @@ int whileLoop() {
     if (nextToken == DO)
     {
       cout << "do\n";
-      lex();
-      cout << "lexeme: " << lexeme << endl;
-      return_val = stmt();
       //lex();
-      if(nextToken == DONE) {
-        cout << "done\n";
-        buffer_index = start_index;
-        cout << "returning to top of while\n";
+      cout << "lexeme: " << lexeme << endl;
+      //return_val = stmt();
+      getChar();
+      lex();
+      while (nextToken != DONE) {
+        cout << "nextToken: " << nextToken << endl;
+        return_val = stmt();
+        if (nextToken == NEWLINE)
+        {
+          getChar();
+          lex();
+          cout << "after lex 2\n";
+          cout << "nextToken: " << nextToken << endl;
+        }
       }
+      //we must be done if we got out of that while loop
+      cout << "done\n";
+      buffer_index = start_index;
+      cout << "returning to top of while\n";
     }
   } else {
     cout << "condition is false\n";
     //condition is false, skip over the statement
     int num_whiles = 1;
     while (num_whiles > 0) {
+      cout << num_whiles << endl;
       lex();
+      if (nextToken == NEWLINE)
+      {
+        getChar();
+        lex();
+        //cout << "after lex 2\n";
+        //cout << "nextToken: " << nextToken << endl;
+      }
       if (nextToken == DONE)
       {
         num_whiles--;
