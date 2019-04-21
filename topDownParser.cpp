@@ -41,8 +41,6 @@ int main(void) {
     lex();
     stmt();
   } while (nextToken != EOF);
-
-   //}
 }
 
 /* stmts
@@ -54,6 +52,19 @@ int stmts()
 {
   int return_val = 0;
 
+  getChar();
+  lex();
+  while (nextToken != DONE && nextToken != FI && nextToken != EOF) {
+    cout << "nextToken: " << nextToken << endl;
+    return_val = stmt();
+    if (nextToken == NEWLINE)
+    {
+      getChar();
+      lex();
+      //cout << "after lex 2\n";
+      //cout << "nextToken: " << nextToken << endl;
+    }
+  }
 
   return return_val;
 }
@@ -135,19 +146,37 @@ int ifstmt() {
 			cout << "then\n";
 			lex();
 			cout << "lexeme = " << lexeme << endl;
-			return_val = stmt();
+			return_val = stmts();
 			cout << "return_val = " << return_val <<endl;
 		} else {
       cout << "ERROR: IF without THEN\n";
     }
 	} else {
-		//condition is false
-		cout << "false\n";
-		while(nextToken != NEWLINE) { //eat the rest of input
-			lex();
-		}
+		cout << "condition is false\n";
+    //condition is false, skip over the statement
+    int num_ifs = 1;
+    while (num_ifs > 0) {
+      lex();
+      //this is to get out of loop we get stuck in if we try
+      //to use lex() to get past a newline character. Should
+      //change lex() to fix this ideally
+      if (nextToken == NEWLINE)
+      {
+        getChar();
+        lex();
+      }
+      if (nextToken == FI)
+      {
+        num_ifs--;
+      }
+      if (nextToken == IF) 
+      {
+        num_ifs++;
+      }
+    }
 	}
 
+  cout << "exiting ifstmt\n";
 	return return_val;
 }
 
@@ -166,24 +195,9 @@ int whileLoop() {
     //lex();
     if (nextToken == DO)
     {
-      cout << "do\n";
-      //lex();
-      cout << "lexeme: " << lexeme << endl;
-      //return_val = stmt();
-      getChar();
-      lex();
-      while (nextToken != DONE) {
-        cout << "nextToken: " << nextToken << endl;
-        return_val = stmt();
-        if (nextToken == NEWLINE)
-        {
-          getChar();
-          lex();
-          cout << "after lex 2\n";
-          cout << "nextToken: " << nextToken << endl;
-        }
-      }
-      //we must be done if we got out of that while loop
+      return_val = stmts();
+
+      //return to top
       cout << "done\n";
       buffer_index = start_index;
       cout << "returning to top of while\n";
@@ -195,12 +209,13 @@ int whileLoop() {
     while (num_whiles > 0) {
       cout << num_whiles << endl;
       lex();
+      //this is to get out of loop we get stuck in if we try
+      //to use lex() to get past a newline character. Should
+      //change lex() to fix this ideally
       if (nextToken == NEWLINE)
       {
         getChar();
         lex();
-        //cout << "after lex 2\n";
-        //cout << "nextToken: " << nextToken << endl;
       }
       if (nextToken == DONE)
       {
