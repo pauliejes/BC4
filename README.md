@@ -33,8 +33,6 @@ Start the program by running bc at the command line within the BC4 directory. In
          | ( <expr> )
 ```
 
-Exampl
-
 
 The user can input or redirect a file assigning variables, comparing variables with if - then - fi statements, and even execute while - do - done loops altering variables in new more efficient ways. The ability to add comments using the `#` character has also been added.
 
