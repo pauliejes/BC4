@@ -13,76 +13,76 @@ int lookup(char *ch)
   //cout << "ch: " << ch << "|" << endl;
 
   if(strcmp(ch, "(") == 0){
-            addChar();
-            nextToken = LEFT_PAREN;
+			addChar();
+			nextToken = LEFT_PAREN;
   }
   else if(strcmp(ch, ")") == 0){
-            addChar();
-            nextToken = RIGHT_PAREN;
+			addChar();
+			nextToken = RIGHT_PAREN;
   }
   else if(strcmp(ch, "+") == 0){
-            addChar();
-            nextToken = ADD_OP;
+			addChar();
+			nextToken = ADD_OP;
   }
   else if(strcmp(ch, "-") == 0){
-            addChar();
-            nextToken = SUB_OP;
+			addChar();
+			nextToken = SUB_OP;
   }
   else if(strcmp(ch, "*") == 0){
-            addChar();
-            nextToken = MULT_OP;
+			addChar();
+			nextToken = MULT_OP;
   }
   else if(strcmp(ch, "/") == 0){
-            addChar();
-            nextToken = DIV_OP;
+			addChar();
+			nextToken = DIV_OP;
   }
   else if(strcmp(ch, "%") == 0){
-            addChar();
-            nextToken = MOD_OP;
+			addChar();
+			nextToken = MOD_OP;
   }
   else if(strcmp(ch, "^") == 0){
-            addChar();
-            nextToken = POW_OP;
+			addChar();
+			nextToken = POW_OP;
   }
   else if(strcmp(ch, "=") == 0){
-            addChar();
-            nextToken = ASSIGN_OP;
+			addChar();
+			nextToken = ASSIGN_OP;
   }
   else if(strcmp(ch, "==") == 0){
-            addChar();
-            nextToken = EQL_OP;
+			addChar();
+			nextToken = EQL_OP;
   }
   else if(strcmp(ch, "!=") == 0){
-            addChar();
-            nextToken = NOTEQL_OP;
+			addChar();
+			nextToken = NOTEQL_OP;
   }
   else if(strcmp(ch, "<") == 0){
-            addChar();
-            nextToken = LESS_OP;
+			addChar();
+			nextToken = LESS_OP;
   }      
   else if(strcmp(ch, ">") == 0){
-            addChar();
-            nextToken = GREAT_OP;
+			addChar();
+			nextToken = GREAT_OP;
   }  
   else if(strcmp(ch, "<=") == 0){
-            addChar();
-            nextToken = LESSEQL_OP;
+			addChar();
+			nextToken = LESSEQL_OP;
   }      
   else if(strcmp(ch, ">=") == 0){
-            addChar();
-            nextToken = GREATEQL_OP;
+			addChar();
+			nextToken = GREATEQL_OP;
   }  
   else if(strcmp(ch, "#") == 0){
-            addChar();
-            nextToken = COMMENT_ID;
+			addChar();
+			nextToken = COMMENT_ID;
   }       
   else if(strcmp(ch, "=") == 0){
-            addChar();
-            nextToken = ASSIGN_OP;
+			addChar();
+			nextToken = ASSIGN_OP;
   }
   else{
-            addChar();
-            nextToken = EOF;
+			addChar();
+			nextToken = EOF;
   }
   //cout << "nextToken: " << nextToken << endl;
   return nextToken;
@@ -90,37 +90,37 @@ int lookup(char *ch)
 
 int reservedWordLookup(char * lexeme) {
   if (strcmp(lexeme,"quit") == 0) {
-      return QUIT;
+	  return QUIT;
    }
    else if (strcmp(lexeme,"dump") == 0) {
-      return DUMP;
+	  return DUMP;
    }
    else if (strcmp(lexeme,"if") == 0) {
-      return IF;
+	  return IF;
    }
    else if (strcmp(lexeme,"then") == 0) {
-      return THEN;
+	  return THEN;
    }
    else if (strcmp(lexeme,"else") == 0) {
-      return ELSE;
+	  return ELSE;
    }
    else if (strcmp(lexeme,"fi") == 0) {
-      return FI;
+	  return FI;
    }
    else if (strcmp(lexeme,"while") == 0) {
-      return WHILE;
+	  return WHILE;
    }
    else if (strcmp(lexeme,"do") == 0) {
-      return DO;
+	  return DO;
    }
    else if (strcmp(lexeme,"done") == 0) {
-      return DONE;
+	  return DONE;
    }
    else if (strcmp(lexeme,"print") == 0) {
-      return PRINT;
+	  return PRINT;
    }
    else {
-      return IDENT;
+	  return IDENT;
    }
 }
 
@@ -130,10 +130,10 @@ int reservedWordLookup(char * lexeme) {
 void addChar()
 {
    if (lexLen <= 98) {
-      lexeme[lexLen++] = nextChar;
-      lexeme[lexLen] = '\0';
+	  lexeme[lexLen++] = nextChar;
+	  lexeme[lexLen] = '\0';
    } else
-      printf("Error - lexeme is too long \n");
+	  printf("Error - lexeme is too long \n");
 }
 /*****************************************************/
 /* getChar - a function to get the next character of
@@ -146,36 +146,36 @@ void getChar()
 {
    //buffer.get(nextChar);
    if(buffer_index < buffer.length()) {
-      //cout << "using buffer\n";
-      nextChar = buffer[buffer_index++];
-      //cout << "nextChar from Buffer[" << buffer_index << "]" << nextChar << endl;
-      //cout << "buffer: " << buffer << endl; 
+	  //cout << "using buffer\n";
+	  nextChar = buffer[buffer_index++];
+	  //cout << "nextChar from Buffer[" << buffer_index << "]" << nextChar << endl;
+	  //cout << "buffer: " << buffer << endl; 
    } else {
-      //cout << "getting a new char\n";
-      //If at end of buffer, grab another character and move the 
-      //buffer index forward
+	  //cout << "getting a new char\n";
+	  //If at end of buffer, grab another character and move the 
+	  //buffer index forward
 
-      cin.get(nextChar);
-      buffer += nextChar;
-      buffer_index++;
+	  cin.get(nextChar);
+	  buffer += nextChar;
+	  buffer_index++;
    }
    //insert next char into buffer here?
    if (nextChar != EOF) {
-      if (isalpha(nextChar))
-         charClass = LETTER;
-      else if (isdigit(nextChar))
-         charClass = DIGIT;
-      else if (nextChar == '#')
-         charClass = COMMENT;
-      else if (nextChar == '\n')
-         charClass = NEWLINE_CLASS;
-      else if (isspace(nextChar)) {
-         charClass = WHITESPACE;
-      }
-      else
-         charClass = OPERATOR;
+	  if (isalpha(nextChar))
+		 charClass = LETTER;
+	  else if (isdigit(nextChar))
+		 charClass = DIGIT;
+	  else if (nextChar == '#')
+		 charClass = COMMENT;
+	  else if (nextChar == '\n')
+		 charClass = NEWLINE_CLASS;
+	  else if (isspace(nextChar)) {
+		 charClass = WHITESPACE;
+	  }
+	  else
+		 charClass = OPERATOR;
    } else
-      charClass = EOF;
+	  charClass = EOF;
 }
 /*****************************************************/
 /* getNonBlank - remove white space characters.
@@ -185,9 +185,9 @@ void getChar()
 */
 void getNonBlank()
 {
-   while (isspace(nextChar) && nextChar != '\n') {
-      getChar();
-   }
+    while (isspace(nextChar) && nextChar != '\n') {
+	   getChar();
+    }
 }
 
 
@@ -206,79 +206,81 @@ int lex()
    // }
    getNonBlank();
    switch (charClass) {
-      /* Parse identifiers - once you find the first
-         letter, read and add char by char to lexeme. */
+	  /* Parse identifiers - once you find the first
+		 letter, read and add char by char to lexeme. */
 
 
-      case LETTER:
-                   addChar();
-                   getChar();
-                   /* After first char, you may use either char or digits */
-                   while (charClass == LETTER || charClass == DIGIT) {
-                      addChar();
-                      getChar();
-                   }
-                   
-                   nextToken = reservedWordLookup(lexeme);
+	  case LETTER:
+				   addChar();
+				   getChar();
+				   /* After first char, you may use either char or digits */
+				   while (charClass == LETTER || charClass == DIGIT) {
+					  addChar();
+					  getChar();
+				   }
+				   
+				   nextToken = reservedWordLookup(lexeme);
 
-                   break;
+				   break;
 
-      /* Parse integer literals - once you find the first
-         digit, read and add digits to lexeme. */
-      case DIGIT:
-                   addChar();
-                   getChar();
-                   while (charClass == DIGIT) {
-                      addChar();
-                      getChar();
-                   }
-                   nextToken = INT_LIT;
-                   break;
+	  /* Parse integer literals - once you find the first
+		 digit, read and add digits to lexeme. */
+	  case DIGIT:
+				   addChar();
+				   getChar();
+				   while (charClass == DIGIT) {
+					  addChar();
+					  getChar();
+				   }
+				   nextToken = INT_LIT;
+				   break;
 
-      /* Parentheses and operators */
-      case OPERATOR:
-                   /* Call lookup to identify the type of operator */
-                    //addChar();
-                    //getChar();
-                   while(charClass == OPERATOR){
-                      addChar();
-                      getChar();
-                   }
-                   //cout << "OPERATOR lexeme: " << lexeme << endl;
-                   lookup(lexeme);
-                   break;
+	  /* Parentheses and operators */
+	  case OPERATOR:
+				   /* Call lookup to identify the type of operator */
+					//addChar();
+					//getChar();
+				   while(charClass == OPERATOR){
+					  addChar();
+					  getChar();
+				   }
+				   //cout << "OPERATOR lexeme: " << lexeme << endl;
+				   lookup(lexeme);
+				   break;
 
-      case COMMENT:
-                   addChar();
-                   getChar();
-                   /* After first char, you may use either char or digits */
-                   while (charClass != NEWLINE_CLASS) {
-                      addChar();
-                      getChar();
-                   }
-                   
-                   //cout << "Comment lexeme: " << lexeme << endl;
-
-
-                   nextToken = COMMENT_ID;
-
-                   break;
-
-      /* Newline characters */
-      case NEWLINE_CLASS:
-                   addChar();
-                   nextToken = NEWLINE;
-                   break;
+	  case COMMENT:
+				   addChar();
+				   getChar();
+				   /* After first char, you may use either char or digits */
+				   while (charClass != NEWLINE_CLASS) {
+					  addChar();
+					  getChar();
+				   }
+				   
+				   //cout << "Comment lexeme: " << lexeme << endl;
 
 
-      /* EOF */
-      case EOF:
-                   nextToken = EOF;
-                   lexeme[0] = 'E';
-                   lexeme[1] = 'O';
-                   lexeme[2] = 'F';
-                   lexeme[3] = '\0';
-                   break;
+				   nextToken = COMMENT_ID;
+
+				   break;
+
+	  /* Newline characters */
+	  case NEWLINE_CLASS:
+				   addChar();
+				   //this is why everything broke
+				   getChar();
+				   nextToken = NEWLINE;
+				   break;
+
+
+	  /* EOF */
+	  case EOF:
+				   nextToken = EOF;
+				   lexeme[0] = 'E';
+				   lexeme[1] = 'O';
+				   lexeme[2] = 'F';
+				   lexeme[3] = '\0';
+				   break;
 
    } /* End of switch */
 
