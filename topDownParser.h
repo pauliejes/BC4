@@ -10,6 +10,8 @@ int stmt();
 int stmts();
 int identifier();
 int ifstmt();
+int then();
+int elze();
 int whileLoop();
 int cond();
 int opt_else();

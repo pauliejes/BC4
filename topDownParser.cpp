@@ -140,43 +140,53 @@ int ifstmt() {
 	lex();
 	int cond_result = cond();
 	if(cond_result) {
-		cout << "true\n";
-		cout << "nextToken = " << nextToken << endl;
-		if(nextToken == THEN) {
-			cout << "then\n";
-			lex();
-			cout << "lexeme = " << lexeme << endl;
-			return_val = stmts();
-			cout << "return_val = " << return_val <<endl;
-		} else {
-      cout << "ERROR: IF without THEN\n";
-    }
+		return_val = then();
 	} else {
-		cout << "condition is false\n";
+		return_val = elze();
+	}
+  	cout << "exiting ifstmt\n";
+	return return_val;
+}
+
+int then(){
+	int return_val;
+	cout << "true\n";
+	cout << "nextToken = " << nextToken << endl;
+
+	if(nextToken == THEN) {
+		cout << "then\n";
+		lex();
+		cout << "lexeme = " << lexeme << endl;
+		return_val = stmts();
+		cout << "return_val = " << return_val <<endl;
+	} else {
+  		cout << "ERROR: IF without THEN\n";
+	}
+
+	return return_val;
+}
+
+int elze(){
+	int return_val;
+	cout << "condition is false\n";
     //condition is false, skip over the statement
     int num_ifs = 1;
     while (num_ifs > 0) {
       lex();
+      getChar();
       //this is to get out of loop we get stuck in if we try
       //to use lex() to get past a newline character. Should
       //change lex() to fix this ideally
-      if (nextToken == NEWLINE)
-      {
-        getChar();
-        lex();
-      }
-      if (nextToken == FI)
-      {
+      // if (nextToken == NEWLINE) {
+      //   getChar();
+      //   lex();
+      // } else 
+      if (nextToken == FI) {
         num_ifs--;
-      }
-      if (nextToken == IF) 
-      {
+      } else if (nextToken == IF) {
         num_ifs++;
       }
     }
-	}
-
-  cout << "exiting ifstmt\n";
 	return return_val;
 }
 
