@@ -1,9 +1,15 @@
 /*
-  Calculator.cpp - A simple arithmetic interpreter.
-  Name: R. Shore
+  topDownParser.cpp - A simple arithmetic interpreter
+                      with some added functionality for
+                      logical statements.
+
+  Authors: Paul Jesukiewicz, Ryan Felton, and Chris Finlan.
+  Adapted from a program written by Rodger Shore.
   Class: CSC-4510
+  
   The program demonstrates two main components of
   an interpreter/compiler.
+
   1) A lexical analyzer to scan the input for
      LETTERs, DIGITs, or OPERATORs
      An IDENT consist of a LETTER followed by
@@ -13,12 +19,30 @@
      An OPERATOR =, +, -, *, /, (, )
      lexeme[] holds the item read from source
      nextToken holds the type
+
   2) A recursive descent parser
      The Grammar - EBNF description
-     <expr> → <term> {(+ | -) <term>}
-     <term> → <factor> {(* | /) <factor>}
-     <factor> → id | int_constant | ( <expr>  )
-     NOTE: the recusive descent starts at <expr>
+     <stmts>  -> <stmt> <stmts>
+               |  <stmt>
+
+     <stmt>   -> <var> = <expr>
+               | if <cond> then <stmts> fi
+               | if <cond> then <stmts> else <stmts> fi 
+               | while <cond> do <stmts> done
+               | print <var>
+               | #comment
+               | dump | quit
+
+     <cond>   -> <expr> <rel_op> <expr>}
+     <expr>   -> <term> {(+ | -) <term>}
+     <term>   -> <factor> {(* | /) <factor>)
+     <term>    | <factor>
+     <term>    | - <factor>
+     <factor> -> id 
+               | int_constant 
+               | ( <expr  )
+
+     NOTE: the recusive descent starts at <stmt>
  */
 
 #include<iostream>
@@ -52,8 +76,11 @@ int stmts()
 {
   int return_val = 0;
 
-  getChar();
-  lex();
+  //may break more stuff
+  if(nextToken == NEWLINE) {
+    getChar();
+    lex();  
+  }
   while (nextToken != DONE && nextToken != FI && nextToken != EOF) {
     cout << "nextToken: " << nextToken << endl;
     return_val = stmt();
@@ -92,7 +119,7 @@ int stmt()
    } else if(nextToken == PRINT) { //Print
       print();
    } else if(nextToken == IDENT) { //for assignment statements
-   	  return_val = identifier();
+      return_val = identifier();
    } else if (nextToken == COMMENT_ID) { //for comments
       //do nothing
    } else if (nextToken == IF) { //for if statements
@@ -110,65 +137,65 @@ int stmt()
 }
 
 void print(){
-	lex();
-	//return_val = factor();
-	Symbol_ptr var_ptr = symbolTable.insert(lexeme);
-	cout << var_ptr->getId() << " = ";
-	cout << var_ptr->getval() << endl;
+  lex();
+  //return_val = factor();
+  Symbol_ptr var_ptr = symbolTable.insert(lexeme);
+  cout << var_ptr->getId() << " = ";
+  cout << var_ptr->getval() << endl;
 }
 
 int identifier() {
 
-	int return_val;
+  int return_val;
 
-	//get the next token
-	Symbol_ptr var_to_assign = symbolTable.insert(lexeme);
-	return_val = factor();
-	while (nextToken == ASSIGN_OP) {
-		lex();
-		return_val = expr();
-		var_to_assign->putval(return_val);
-	}
+  //get the next token
+  Symbol_ptr var_to_assign = symbolTable.insert(lexeme);
+  return_val = factor();
+  while (nextToken == ASSIGN_OP) {
+    lex();
+    return_val = expr();
+    var_to_assign->putval(return_val);
+  }
 
-	return return_val;
+  return return_val;
 }
 
 int ifstmt() {
 
-	int return_val;
+  int return_val;
 
-	lex();
-	int cond_result = cond();
-	if(cond_result) {
-		return_val = then();
-	} else {
-		return_val = elze();
-	}
-  	cout << "exiting ifstmt\n";
-	return return_val;
+  lex();
+  int cond_result = cond();
+  if(cond_result) {
+    return_val = then();
+  } else {
+    return_val = elze();
+  }
+    cout << "exiting ifstmt\n";
+  return return_val;
 }
 
 int then(){
-	int return_val;
-	cout << "true\n";
-	cout << "nextToken = " << nextToken << endl;
+  int return_val;
+  cout << "true\n";
+  cout << "nextToken = " << nextToken << endl;
 
-	if(nextToken == THEN) {
-		cout << "then\n";
-		lex();
-		cout << "lexeme = " << lexeme << endl;
-		return_val = stmts();
-		cout << "return_val = " << return_val <<endl;
-	} else {
-  		cout << "ERROR: IF without THEN\n";
-	}
+  if(nextToken == THEN) {
+    cout << "then\n";
+    lex();
+    cout << "lexeme = " << lexeme << endl;
+    return_val = stmts();
+    cout << "return_val = " << return_val <<endl;
+  } else {
+      cout << "ERROR: IF without THEN\n";
+  }
 
-	return return_val;
+  return return_val;
 }
 
 int elze(){
-	int return_val;
-	cout << "condition is false\n";
+  int return_val;
+  cout << "condition is false\n";
     //condition is false, skip over the statement
     int num_ifs = 1;
     while (num_ifs > 0) {
@@ -187,7 +214,7 @@ int elze(){
         num_ifs++;
       }
     }
-	return return_val;
+  return return_val;
 }
 
 //WHILE <condition> DO <stmts> DONE
