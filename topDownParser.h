@@ -13,6 +13,8 @@ int ifstmt();
 int then();
 int elze();
 int whileLoop();
+int doWhile();
+void whileElse();
 int cond();
 int opt_else();
 int expr();

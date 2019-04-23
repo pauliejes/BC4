@@ -52,8 +52,6 @@
 #include"topDownParser.h"
 #include"symTable.h"
 
-
-
 using namespace std;
 
 
@@ -221,52 +219,60 @@ int elze(){
 int whileLoop() {
   cout << "whileLoop\n";
   int return_val = 0;
-  //subtract characters from while
-  int start_index = buffer_index - 6;
-
+  
   lex();
   //store the location in the buffer where the while loop starts
-  if (cond())
-  {
-    cout << "condition true\n";
-    //lex();
-    if (nextToken == DO)
-    {
-      return_val = stmts();
-
-      //return to top
-      cout << "done\n";
-      buffer_index = start_index;
-      cout << "returning to top of while\n";
-    }
+  if (cond()) {
+      return_val = doWhile();
   } else {
+      whileElse();
+  }
+
+  cout << "EXITING WHILE LOOP FUNCTION\n";
+  return return_val;
+}
+
+int doWhile(){
+  //subtract characters from while
+  int start_index = buffer_index - 6;
+  int return_val = 0;
+
+  cout << "condition true\n";
+  if (nextToken == DO) {
+    lex();
+    return_val = stmts();
+    //return to top
+    cout << "done\n";
+    buffer_index = start_index;
+    cout << "returning to top of while\n";
+  } else {
+    cout << "ERROR: DO without DONE\n";
+  }
+  return return_val;
+}
+
+
+
+void whileElse(){
     cout << "condition is false\n";
     //condition is false, skip over the statement
     int num_whiles = 1;
     while (num_whiles > 0) {
       cout << num_whiles << endl;
       lex();
+      getChar();
       //this is to get out of loop we get stuck in if we try
       //to use lex() to get past a newline character. Should
       //change lex() to fix this ideally
-      if (nextToken == NEWLINE)
-      {
-        getChar();
-        lex();
-      }
-      if (nextToken == DONE)
-      {
+      // if (nextToken == NEWLINE) {
+      //   lex();
+      // } else 
+      if (nextToken == DONE) {
         num_whiles--;
-      }
-      if (nextToken == WHILE) 
-      {
+      } else if (nextToken == WHILE) {
         num_whiles++;
       }
     }
-  }
-
-  cout << "EXITING WHILE LOOP FUNCTION\n";
-  return return_val;
 }
 
 /* cond
