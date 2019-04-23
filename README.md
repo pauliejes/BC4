@@ -6,7 +6,7 @@ After running `make`, the compiled bc program will run interactively as well as 
 
 Start the program by running bc at the command line within the BC4 directory. In this iteration of BC the user is not allowed to enter an explicit expression without assigning that expression to a variable. Only the following grammar is accepted by this interpreter:
 
-`<stmts> → <stmt> <stmts>
+<stmts> → <stmt> <stmts>
         | <stmt>
   
 <stmt> → id = <expr>
