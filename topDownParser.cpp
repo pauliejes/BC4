@@ -60,7 +60,6 @@ using namespace std;
 int main(void) {
   getChar();
   do {
-    //getChar();
     lex();
     if(nextToken == NEWLINE)
       lex();
@@ -77,25 +76,13 @@ int stmts()
 {
   int return_val = 0;
 
-  //may break more stuff
-  /*if(nextToken == NEWLINE) {
-    getChar();
-    lex();  
-  }*/
-
   while (nextToken != DONE && nextToken != FI && nextToken != EOF) {
-    cout << "nextToken: " << nextToken << endl;
     return_val = stmt();
     if (nextToken == NEWLINE)
     {
-      //getChar();
       lex();
-      //cout << "after lex 2\n";
-      //cout << "nextToken: " << nextToken << endl;
     }
-    //lex();
   }
-
   return return_val;
 }
 
@@ -133,7 +120,6 @@ int stmt()
       error("Statement should not be empty");
    } else { //plain expressions
       error("This grammar does not allow plain expressions, please define a variable name");
-      cout << "You entered : " << lexeme << endl;
    }
 
    return return_val;
@@ -141,7 +127,6 @@ int stmt()
 
 void print(){
   lex();
-  //return_val = factor();
   Symbol_ptr var_ptr = symbolTable.insert(lexeme);
   cout << var_ptr->getId() << " = ";
   cout << var_ptr->getval() << endl;
@@ -174,43 +159,28 @@ int ifstmt() {
   } else {
     return_val = elze();
   }
-    cout << "exiting ifstmt\n";
   return return_val;
 }
 
 int then(){
   int return_val;
-  cout << "true\n";
-  cout << "nextToken = " << nextToken << endl;
 
   if(nextToken == THEN) {
-    cout << "then\n";
     lex();
-    cout << "lexeme = " << lexeme << endl;
     return_val = stmts();
-    cout << "return_val = " << return_val <<endl;
   } else {
-      cout << "ERROR: IF without THEN\n";
+      error("ERROR: IF without THEN");
   }
-
   return return_val;
 }
 
 int elze(){
   int return_val;
-  cout << "condition is false\n";
     //condition is false, skip over the statement
     int num_ifs = 1;
     while (num_ifs > 0) {
       lex();
       getChar();
-      //this is to get out of loop we get stuck in if we try
-      //to use lex() to get past a newline character. Should
-      //change lex() to fix this ideally
-      // if (nextToken == NEWLINE) {
-      //   getChar();
-      //   lex();
-      // } else 
       if (nextToken == FI) {
         num_ifs--;
       } else if (nextToken == IF) {
@@ -222,7 +192,6 @@ int elze(){
 
 //WHILE <condition> DO <stmts> DONE
 int whileLoop() {
-  cout << "whileLoop\n";
   int return_val = 0;
   //subtract characters from while
   int start_index = buffer_index - 6;
@@ -230,32 +199,20 @@ int whileLoop() {
   lex();
   //store the location in the buffer where the while loop starts
   if (cond()) {
-
-	
-	  cout << "condition true\n";
 	  if (nextToken == DO) {
 	    lex();
 	    return_val = stmts();
 	    //return to top
-	    cout << "done\n";
 	    buffer_index = start_index;
-	    cout << "returning to top of while\n";
 	  } else {
-	    cout << "ERROR: DO without DONE\n";
+	    error("ERROR: DO without DONE");
 	  }
 
   } else {
-      cout << "condition is false\n";
       //condition is false, skip over the statement
       int num_whiles = 1;
       while (num_whiles > 0) {
-	      cout << num_whiles << endl;
-	      lex();
-	      
-	      //getChar();
-	      //this is to get out of loop we get stuck in if we try
-	      //to use lex() to get past a newline character. Should
-	      //change lex() to fix this ideally
+	      lex();	      
 	      if (nextToken == DONE) {
 	        num_whiles--;
 	      } else if (nextToken == WHILE) {
@@ -263,8 +220,6 @@ int whileLoop() {
 	      }
 	  }
   }
-
-  cout << "EXITING WHILE LOOP FUNCTION\n";
   return return_val;
 }
 
@@ -275,75 +230,42 @@ int whileLoop() {
 */
 int cond()
 {
-   cout << "Enter condition. lexeme: " << lexeme << endl;
    bool return_val;
-
-
    //evaluate the first expression and hold value
    int val_1 = expr();
-   //cout << "val_1 = " << val_1 << endl;
    int val_2;
 
    if(nextToken == EQL_OP) {
       lex();
       val_2 = expr();
-      //cout << "val_2 = " << val_2 << endl;
       return_val = (val_1 == val_2);
-
    } else if(nextToken == NOTEQL_OP) {
       lex();
       val_2 = expr();
-      //cout << "val_2 = " << val_2 << endl;
       return_val = (val_1 != val_2);
-
    } else if(nextToken == LESS_OP) {
       lex();
       val_2 = expr();
-      //cout << "val_2 = " << val_2 << endl;
       return_val = (val_1 < val_2);
-
    } else if(nextToken == GREAT_OP) {
       lex();
       val_2 = expr();
-      //cout << "val_2 = " << val_2 << endl;
       return_val = (val_1 > val_2);
-
    } else if(nextToken == LESSEQL_OP) {
       lex();
       val_2 = expr();
-      //cout << "val_2 = " << val_2 << endl;
       return_val = (val_1 <= val_2);
-
    } else if(nextToken == GREATEQL_OP) {
       lex();
       val_2 = expr();
-      //cout << "val_2 = " << val_2 << endl;
       return_val = (val_1 >= val_2);
    }  else if(nextToken == FI) {
       cout << "if return_val = " << return_val << endl;
       return return_val;
-
    } else {
       cout << "You didn't close the block! Current if return_val = " << return_val << endl;
       return return_val;
    }
-
-
-   /* Parse the first expr */
-   // int first_cond = expr();
-   // op = rel_op();
-
-   /* As long as the next token is a rel_op, get
-      the next token and parse the next term */
-   // while (nextToken == op) {
-   //    lex();
-   //    return_val += term();
-   // }
-
-   // cout << "if return_val = " << return_val << endl;
-
-   // return return_val;
-
 } /* End of function cond */
 
 
@@ -359,16 +281,11 @@ int expr()
    /* Parse the first term */
    return_val = term();
 
-   /*while (nextToken == ASSIGN_OP) {
-      lex();
-      term();
-   }*/
    /* As long as the next token is + or -, get
       the next token and parse the next term */
    while (nextToken == ADD_OP ) {
       lex();
       return_val += term();
-      //cout << "ADD_OP" << endl;
    }
 
    while (nextToken == SUB_OP) {
@@ -416,8 +333,6 @@ int term()
       lex();
       return_val = pow(return_val,factor());
    }
-
-
    return return_val;
 
 } /* End of function term */
