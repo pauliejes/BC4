@@ -130,8 +130,10 @@ void addChar()
    if (lexLen <= 98) {
 	  lexeme[lexLen++] = nextChar;
 	  lexeme[lexLen] = '\0';
-   } else
+   } else {
 	  printf("Error - lexeme is too long \n");
+     exit(0);
+   }
 }
 /*****************************************************/
 /* getChar - a function to get the next character of
@@ -147,10 +149,13 @@ void getChar()
    } else {
 	  //If at end of buffer, grab another character and move the 
 	  //buffer index forward
-
-	  cin.get(nextChar);
-	  buffer += nextChar;
-	  buffer_index++;
+     if(cin.eof()) {
+        nextChar = EOF;
+     } else {
+   	  cin.get(nextChar);
+   	  buffer += nextChar;
+   	  buffer_index++;
+     }
    }
    //insert next char into buffer here?
    if (nextChar != EOF) {
