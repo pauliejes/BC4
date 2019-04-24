@@ -149,7 +149,8 @@ void getChar()
    } else {
 	  //If at end of buffer, grab another character and move the 
 	  //buffer index forward
-     if(cin.eof()) {
+
+     if(cin.peek() == -1) { //check if next char will be the EOF
         nextChar = EOF;
      } else {
    	  cin.get(nextChar);
@@ -172,8 +173,9 @@ void getChar()
 	  }
 	  else
 		 charClass = OPERATOR;
-   } else
+   } else {
 	  charClass = EOF;
+   }
 }
 /*****************************************************/
 /* getNonBlank - remove white space characters.
@@ -205,7 +207,7 @@ int lex()
 				   getChar();
 				   /* After first char, you may use either char or digits */
 				   while (charClass == LETTER || charClass == DIGIT) {
-					  addChar();
+                 addChar();
 					  getChar();
 				   }
 				   

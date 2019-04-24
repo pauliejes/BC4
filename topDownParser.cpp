@@ -82,12 +82,14 @@ int stmts()
 
   while (nextToken != DONE && nextToken != FI && nextToken != EOF) {
     return_val = stmt();
+    //cout << "next token: " << nextToken << endl;
     if (nextToken == NEWLINE)
     {
       lex();
     }
   }
 
+  //cout << "exiting stmts. nextToken = " << nextToken << endl;
   return return_val;
 }
 
@@ -123,6 +125,7 @@ int stmt()
       return_val = whileLoop(); 
    } else if (nextToken == NEWLINE) {
       error("Statement should not be empty");
+   } else if (nextToken == EOF) {
       exit(0);
    } else { //plain expressions
       error("This grammar does not allow plain expressions, please define a variable name");
@@ -166,6 +169,7 @@ int ifstmt() {
     return_val = elze();
   }
 
+  //cout << "exiting if\n";
   return return_val;
 }
 
@@ -175,9 +179,6 @@ int then(){
   if(nextToken == THEN) {
     lex();
     return_val = stmts();
-    if(nextToken == FI) {
-
-    }
   } else {
       error("ERROR: IF without THEN");
   }
@@ -214,12 +215,15 @@ int whileLoop() {
 	    return_val = stmts();
 	    //return to top
 	    buffer_index = start_index;
+      //get past the DONE
+      lex();
 	  } else {
 	    error("ERROR: DO without DONE");
 	  }
 
   } else {
     //condition is false, skip over the statement
+    //cout << "while else\n";
     int num_whiles = 1;
     while (num_whiles > 0) {
       lex();
@@ -229,7 +233,9 @@ int whileLoop() {
         num_whiles++;
       }
 	  }
+    lex();
   }
+  //cout << "exitting while\n";
   return return_val;
 }
 
