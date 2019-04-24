@@ -260,10 +260,8 @@ int cond()
       val_2 = expr();
       return_val = (val_1 >= val_2);
    }  else if(nextToken == FI) {
-      cout << "if return_val = " << return_val << endl;
       return return_val;
    } else {
-      cout << "You didn't close the block! Current if return_val = " << return_val << endl;
       return return_val;
    }
 } /* End of function cond */
