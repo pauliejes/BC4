@@ -10,7 +10,6 @@ using namespace std;
  and return the token */
 int lookup(char *ch)
 {
-  //cout << "ch: " << ch << "|" << endl;
 
   if(strcmp(ch, "(") == 0){
 			addChar();
@@ -84,7 +83,6 @@ int lookup(char *ch)
 			addChar();
 			nextToken = EOF;
   }
-  //cout << "nextToken: " << nextToken << endl;
   return nextToken;
 }
 
@@ -144,14 +142,9 @@ void addChar()
 */
 void getChar()
 {
-   //buffer.get(nextChar);
    if(buffer_index < buffer.length()) {
-	  //cout << "using buffer\n";
 	  nextChar = buffer[buffer_index++];
-	  //cout << "nextChar from Buffer[" << buffer_index << "]" << nextChar << endl;
-	  //cout << "buffer: " << buffer << endl; 
    } else {
-	  //cout << "getting a new char\n";
 	  //If at end of buffer, grab another character and move the 
 	  //buffer index forward
 
@@ -197,18 +190,10 @@ void getNonBlank()
 int lex()
 {
    lexLen = 0;
-   // if (nextToken != '#')
-   //    getNonBlank();
-   // else {
-   //    while (nextChar != '\n') {
-   //       getChar();
-   //    }
-   // }
    getNonBlank();
    switch (charClass) {
 	  /* Parse identifiers - once you find the first
 		 letter, read and add char by char to lexeme. */
-
 
 	  case LETTER:
 				   addChar();
@@ -238,13 +223,10 @@ int lex()
 	  /* Parentheses and operators */
 	  case OPERATOR:
 				   /* Call lookup to identify the type of operator */
-					//addChar();
-					//getChar();
 				   while(charClass == OPERATOR){
 					  addChar();
 					  getChar();
 				   }
-				   //cout << "OPERATOR lexeme: " << lexeme << endl;
 				   lookup(lexeme);
 				   break;
 
@@ -256,10 +238,7 @@ int lex()
 					  addChar();
 					  getChar();
 				   }
-				   
-				   //cout << "Comment lexeme: " << lexeme << endl;
-
-
+				 
 				   nextToken = COMMENT_ID;
 
 				   break;
@@ -267,7 +246,6 @@ int lex()
 	  /* Newline characters */
 	  case NEWLINE_CLASS:
 				   addChar();
-				   //this is why everything broke
 				   getChar();
 				   nextToken = NEWLINE;
 				   break;
