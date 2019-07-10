@@ -9,31 +9,31 @@ Start the program by running bc at the command line within the BC4 directory. In
 
 ## Grammar
 ```
-<stmts> → <stmt> <stmts>
-        | <stmt>
+<stmts>          → <stmt> <stmts>
+                 | <stmt>
   
-<stmt> → id = <expr>
-       | if <cond> then <stmts> <optional_else> 
-       | while <cond> do <stmts> done
-       | print id
-       | #comment
-       | dump
-       | quit
+<stmt>           → id = <expr>
+                 | if <cond> then <stmts> <optional_else> 
+                 | while <cond> do <stmts> done
+                 | print id
+                 | #comment
+                 | dump
+                 | quit
   
-<optional_else> → else <stmts> fi 
-                | fi
+<optional_else>  → else <stmts> fi 
+                 | fi
   
-<cond> → <expr> <rel_op> <expr>
+<cond>           → <expr> <rel_op> <expr>
   
-<rel_op> → == | != | < | <= | > | >= 
+<rel_op>         → == | != | < | <= | > | >= 
 
-<expr> → <term> {(+ | -) <term>} 
+<expr>           → <term> {(+ | -) <term>} 
   
-<term> → <factor> {(* |   / | %) <factor>} 
+<term>           → <factor> {(* |   / | %) <factor>} 
   
-<factor> → id 
-         | int_constant 
-         | ( <expr> )
+<factor>         → id 
+                 | int_constant 
+                 | ( <expr> )
 ```
 
 
